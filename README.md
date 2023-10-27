@@ -1,5 +1,11 @@
 This is a Nextjs UI for authentication with laravel breeze.
 
+## Libraries
+
+#### [NextUI](https://nextui.org/docs/guide/installation)
+
+#### [next-themes](https://nextui.org/docs/guide/installation)
+
 ## Getting Started
 
 First, run the development server:
