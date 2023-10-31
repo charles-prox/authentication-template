@@ -63,8 +63,8 @@ npm run start
 ```
 
 You can modify your package.json file if needed to set your host or port: <br>
-`"scripts": {
-    "dev": "next dev -H 127.0.0.1 -p 4000", <br>
-    "start": "next start -H 127.0.0.1 -p 4000", <br>
-    ....<br>
-  },`
+`"scripts": {`
+`"dev": "next dev -H 127.0.0.1 -p 4000",`
+`"start": "next start -H 127.0.0.1 -p 4000", `
+`....`
+` },`
