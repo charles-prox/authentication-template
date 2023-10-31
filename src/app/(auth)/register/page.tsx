@@ -1,23 +1,15 @@
-import { Spacer, Button, Input } from "@nextui-org/react";
 import React from "react";
-import PasswordInput from "../PasswordInput";
-import { MailIcon } from "@/icons/MailIcon";
-import { PersonIcon } from "@/icons/PersonIcon";
+
 import Header from "../Header";
+import RegisterForm from "./RegisterForm";
+import { Spacer } from "@nextui-org/react";
 
 const RegisterPage = () => {
   return (
     <>
       <Header text="Register" />
-
-      <Input startContent={<PersonIcon />} type="text" label="Name" />
-      <Input startContent={<MailIcon />} type="email" label="Email" />
-      <PasswordInput label="Password" />
-      <PasswordInput label="Confirm Password" />
-      <Spacer y={5} />
-      <Button size="lg" color="success">
-        Register
-      </Button>
+      <Spacer y={4} />
+      <RegisterForm />
     </>
   );
 };

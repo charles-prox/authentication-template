@@ -15,7 +15,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             <Image src="/images/logo.png" width={80} height={80} alt="logo" />
             <h1 className="p-2 text-5xl">NextUI</h1>
           </div>
-          <div className="flex flex-col space-y-4 p-5">{children}</div>
+          <div className="p-5">{children}</div>
         </CardBody>
       </Card>
     </div>
