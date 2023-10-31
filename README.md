@@ -62,7 +62,7 @@ Then, run for production:
 npm run start
 ```
 
-You can modify your _package.json_ file if needed to set your host or port: <br>
+You can modify your `package.json` file if needed to set your host or port: <br>
 
 ```
 "scripts": {
