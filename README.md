@@ -2,10 +2,10 @@ This is a Nextjs UI for authentication with laravel breeze.
 
 ## Libraries
 
-[NextUI](https://nextui.org/docs/guide/installation) - Tailwind css base ui library for next.js <br>
-[next-themes](https://nextui.org/docs/guide/installation) - theming utility for next.js <br>
-[Yup](https://www.npmjs.com/package/yup) - typescript base schema builder for client-side form validation <br>
-[react-hook-form](https://react-hook-form.com/) - react library for simple and easy client-side validation<br>
+- [NextUI](https://nextui.org/docs/guide/installation) - Tailwind css base ui library for next.js <br>
+- [next-themes](https://nextui.org/docs/guide/installation) - theming utility for next.js <br>
+- [Yup](https://www.npmjs.com/package/yup) - typescript base schema builder for client-side form validation <br>
+- [react-hook-form](https://react-hook-form.com/) - react library for simple and easy client-side validation<br>
 
 ## Getting Started
 
