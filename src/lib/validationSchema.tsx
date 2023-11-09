@@ -9,7 +9,7 @@ const loginSchema = object().shape({
 const registerSchema = object().shape({
   name: string().required(),
   email: string().email().required(),
-  password: string().required().min(8),
+  password: string().required().min(6),
   password_confirmation: string()
     .required()
     .oneOf([ref("password")], "This field must match with your password"),

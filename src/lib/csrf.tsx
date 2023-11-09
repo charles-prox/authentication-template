@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 const csrf = async () => {
   const response = await fetch(`${baseUrl}/sanctum/csrf-cookie`, {
     credentials: "include",
-    mode: "cors",
     headers: { "X-Requested-With": "XMLHttpRequest" },
   });
 
