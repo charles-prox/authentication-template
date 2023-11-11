@@ -1,9 +1,9 @@
 {
   "name": "laravel_next_app",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -H 172.22.123.129",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

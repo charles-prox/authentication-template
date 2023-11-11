@@ -7,8 +7,9 @@ import { Spacer, Button } from "@nextui-org/react";
 import { useForm, FormProvider } from "react-hook-form";
 import FormInput from "../FormInput";
 import { useSchema } from "@/lib/validationSchema";
-import { getCookie } from "cookies-next";
+import { getCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 const RegisterForm = () => {
   const { registerFormOptions } = useSchema();
@@ -20,45 +21,16 @@ const RegisterForm = () => {
     // display form data on success
     console.log("SUCCESS!! -" + JSON.stringify(data));
     // return false;
-    const fetchToken = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sanctum/csrf-cookie`,
-      {
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "include", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    );
+    const register = await api.POST("guest", "register", data);
 
-    const token: any = getCookie("XSRF-TOKEN");
-    console.log("userDetails: " + JSON.stringify(token));
+    if (register.status === 200) {
+      // setCookie("user-token", register.result.token);
+      console.log("result: " + JSON.stringify(register.result));
 
-    const register = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/register`,
-      {
-        method: "POST",
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "include", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-          "X-XSRF-TOKEN": token,
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (register.status === 204) {
       router.push("/");
     } else {
-      const result = await register.json();
-      console.log("register result: " + JSON.stringify(result.status));
+      const result = register.result;
+      console.log("register result: " + JSON.stringify(register.status));
       // console.log("result.hasOwnProperty: " + result.hasOwnProperty("errors"));
 
       if (result.hasOwnProperty("errors")) {
