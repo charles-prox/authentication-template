@@ -1,5 +1,3 @@
-import { getCookie } from "cookies-next";
-
 export async function isAuthenticated() {
   const fetchToken = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/sanctum/csrf-cookie`,
@@ -15,7 +13,11 @@ export async function isAuthenticated() {
     }
   );
 
-  const token: any = getCookie("XSRF-TOKEN");
+  const header = fetchToken.headers.getSetCookie();
+  const xsrf = header[0].split(";");
+  const xsrfValue = xsrf[0].split("=");
+  const token = decodeURIComponent(xsrfValue[1]);
+  console.log("token: " + token);
 
   const fetchUser = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
@@ -26,12 +28,14 @@ export async function isAuthenticated() {
         Accept: "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-XSRF-TOKEN": token,
+        Authorization: `Bearer ${token}`,
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
     }
   );
 
   const userDetails = await fetchUser.json();
+  console.log("status: " + JSON.stringify(fetchUser.status));
   console.log("userDetails: " + JSON.stringify(userDetails));
   if (userDetails.hasOwnProperty("message")) {
     const message = userDetails.message!;

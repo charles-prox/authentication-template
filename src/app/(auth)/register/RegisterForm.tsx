@@ -35,7 +35,7 @@ const RegisterForm = () => {
     );
 
     const token: any = getCookie("XSRF-TOKEN");
-    // console.log("userDetails: " + JSON.stringify(token));
+    console.log("userDetails: " + JSON.stringify(token));
 
     const register = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/register`,
