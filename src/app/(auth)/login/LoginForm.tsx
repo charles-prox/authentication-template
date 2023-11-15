@@ -6,8 +6,8 @@ import FormInput from "../FormInput";
 import PasswordInput from "../PasswordInput";
 import { Button, Spacer } from "@nextui-org/react";
 import { useSchema } from "@/lib/validationSchema";
-import { getCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 
 const LoginForm = () => {
   const { loginFormOptions } = useSchema();
@@ -16,50 +16,12 @@ const LoginForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
-    console.log("SUCCESS!! -" + JSON.stringify(data));
-    // return false;
-    const fetchToken = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/sanctum/csrf-cookie`,
-      {
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "include", // include, *same-origin, omit
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "X-Requested-With": "XMLHttpRequest",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    );
+    const login = await api.POST("guest", "login", data);
 
-    const token: any = getCookie("XSRF-TOKEN");
-    // console.log("userDetails: " + JSON.stringify(token));
-
-    const login = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, {
-      method: "POST",
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "include", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-XSRF-TOKEN": token,
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(data),
-    });
-
-    const result = await login.json();
-
-    console.log("token: " + JSON.stringify(result));
-
-    if (login.status === 204 || 302) {
-      // router.push("/dashboard");
-      console.log("status: " + login.status);
+    if (login.status === 200) {
+      router.replace("/");
     } else {
-      const result = await login.json();
-      console.log("login result: " + JSON.stringify(result.status));
-      // console.log("result.hasOwnProperty: " + result.hasOwnProperty("errors"));
+      const result = await login.result;
 
       if (result.hasOwnProperty("errors")) {
         if (result.errors.hasOwnProperty("email"))

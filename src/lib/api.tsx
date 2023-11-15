@@ -2,7 +2,7 @@ import { getCookie } from "cookies-next";
 
 type Middleware = "guest" | "auth";
 
-const headers = (middleware?: Middleware) => {
+const headers = (middleware?: Middleware, bearertoken?: any) => {
   const headerList: any = {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -15,7 +15,7 @@ const headers = (middleware?: Middleware) => {
   }
 
   if (middleware === "auth") {
-    const userToken: any = getCookie("token");
+    const userToken: any = bearertoken ? bearertoken : getCookie("token");
     headerList.Authorization = `Bearer ${userToken}`;
   }
 
@@ -29,11 +29,12 @@ const csrf = async () => {
   });
 };
 
-const GET = async (middleware: Middleware, url: string) => {
+const GET = async (middleware: Middleware, url: string, bearertoken?: any) => {
   middleware === "guest" && (await csrf());
   const request = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${url}`, {
     credentials: "include", // include, *same-origin, omit
-    headers: headers(middleware),
+    cache: "force-cache",
+    headers: headers(middleware, bearertoken),
   });
 
   return { result: await request.json(), status: request.status };
@@ -42,13 +43,15 @@ const GET = async (middleware: Middleware, url: string) => {
 const POST = async (
   middleware: Middleware,
   url: string,
-  data: JSON | FormData
+  data: JSON | FormData | null,
+  bearertoken?: any
 ) => {
   middleware === "guest" && (await csrf());
   const request = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${url}`, {
     method: "POST",
     credentials: "include", // include, *same-origin, omit
-    headers: headers(middleware),
+    cache: "force-cache",
+    headers: headers(middleware, bearertoken),
     body: JSON.stringify(data),
   });
 

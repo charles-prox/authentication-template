@@ -18,21 +18,12 @@ const RegisterForm = () => {
   const router = useRouter();
 
   const onSubmit = async (data: any) => {
-    // display form data on success
-    console.log("SUCCESS!! -" + JSON.stringify(data));
-    // return false;
     const register = await api.POST("guest", "register", data);
 
     if (register.status === 200) {
-      // setCookie("user-token", register.result.token);
-      console.log("result: " + JSON.stringify(register.result));
-
-      router.push("/");
+      router.replace("/");
     } else {
       const result = register.result;
-      console.log("register result: " + JSON.stringify(register.status));
-      // console.log("result.hasOwnProperty: " + result.hasOwnProperty("errors"));
-
       if (result.hasOwnProperty("errors")) {
         if (result.errors.hasOwnProperty("name"))
           methods.setError("name", {

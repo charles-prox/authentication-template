@@ -1,21 +1,21 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { isAuthenticated } from "./lib/auth";
+import { api } from "./lib/api";
 
 export async function middleware(request: NextRequest) {
-  const token: any = request.cookies.getAll();
-  console.log("token: " + JSON.stringify(token));
-  console.log("request.url: " + JSON.stringify(request.url));
+  const token = request.cookies.get("token")?.value;
 
-  const authenticated: any = await isAuthenticated();
-  // const authenticated: any = false;
+  const user = await api.GET("auth", "api/user", token);
 
-  if (!authenticated) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (user.status !== 401) {
+    return NextResponse.rewrite(new URL("/", request.nextUrl));
+  } else {
+    return request.url.includes("login") || request.url.includes("register")
+      ? NextResponse.next()
+      : NextResponse.redirect(new URL("/login", request.nextUrl));
   }
 }
 
-// middleware only runs in the routes declared in matcher
 export const config = {
-  matcher: ["/", "/dashboard/:path*"],
+  matcher: ["/", "/dashboard/:path*", "/login", "/register"],
 };
