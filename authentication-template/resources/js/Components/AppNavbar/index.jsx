@@ -93,14 +93,25 @@ const AppNavbar = () => {
                     <Divider orientation="vertical" className={"h-5"} />
                     {auth.user && (
                         <NavbarItem>
-                            <Dropdown showArrow>
+                            <Dropdown
+                                showArrow
+                                classNames={{
+                                    content: `${theme} text-foreground`,
+                                }}
+                            >
                                 <DropdownTrigger>
                                     <Button
                                         disableAnimation
                                         className="inline-flex items-center rounded-md bg-transparent"
                                     >
                                         <User
-                                            name={auth?.user?.name}
+                                            name={`${
+                                                auth?.user?.first_name
+                                            } ${auth?.user.middle_name
+                                                .charAt(0)
+                                                .toUpperCase()}. ${
+                                                auth?.user.last_name
+                                            }`}
                                             description={auth?.user?.position}
                                             avatarProps={{
                                                 showFallback: true,
@@ -113,10 +124,7 @@ const AppNavbar = () => {
                                         <CaretDownIcon />
                                     </Button>
                                 </DropdownTrigger>
-                                <DropdownMenu
-                                    aria-label="Static Actions"
-                                    classNames={{ list: "text-foreground" }}
-                                >
+                                <DropdownMenu aria-label="Static Actions">
                                     <DropdownItem
                                         key="profile"
                                         // href={route("profile.edit")}

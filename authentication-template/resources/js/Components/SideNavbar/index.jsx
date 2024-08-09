@@ -4,12 +4,7 @@ import NavItems from "./NavItems";
 import { useSideNavState } from "@/SideNavStateProvider";
 import { ArrowRightIcon } from "./icons";
 
-const SideNavbar = ({
-    theme,
-    minSideNavWidth,
-    maxSideNavWidth,
-    animationOptions,
-}) => {
+const SideNavbar = ({ minSideNavWidth, maxSideNavWidth, animationOptions }) => {
     const { sideNavState, toggleSideNavState } = useSideNavState();
 
     return (
@@ -31,7 +26,6 @@ const SideNavbar = ({
                 h-[calc(100vh-4rem)]
                 fixed
                 left-0 top-[4rem]
-                ${theme === "light" && "bg-white"}
                 shadow-md
             `}
         >

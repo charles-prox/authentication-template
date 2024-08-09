@@ -13,8 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('hris_id', 8)->unique();
+            $table->text('user_id')->unique();
+            $table->text('first_name');
+            $table->text('middle_name')->nullable();
+            $table->text('last_name');
+            $table->text('email');
+            $table->text('position');
+            $table->text('contact_no');
+            $table->bigInteger('pro_code')->default(15);
+            $table->text('employment_status');
+            $table->bigInteger('office_id')->nullable();
+            $table->foreign('office_id')->references('id')->on('offices');
+            $table->string('account_status')->default('active');
+            $table->string('avatar')->nullable(); // Changed to string type
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -1,6 +1,6 @@
 import React from "react";
 import PasswordInput from "./PasswordInput";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import {
     Autocomplete,
     AutocompleteItem,
@@ -10,6 +10,7 @@ import {
 import { employmentStatus } from "@/utils/constants";
 
 export const RegisterForm = () => {
+    const { offices } = usePage().props;
     const { data, setData, post, processing, errors, reset } = useForm({
         hris_id: "",
         user_id: "",
@@ -34,7 +35,7 @@ export const RegisterForm = () => {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("register.admin"));
+        post(route("register"));
     };
 
     return (
@@ -94,9 +95,9 @@ export const RegisterForm = () => {
                             isClearable={false}
                             className="min-w-64"
                             menuTrigger="input"
-                            onInputChange={(value) => {
-                                console.log("value: " + value);
-                                setData("employment_status", value);
+                            onSelectionChange={(key) => {
+                                console.log("value: " + key);
+                                setData("employment_status", key);
                             }}
                             onKeyDown={(e) => e.continuePropagation()} //to stop console error: console.js:213 stopPropagation is now the default behavior for events in React Spectrum. You can use continuePropagation() to revert this behavior.
                             isRequired
@@ -131,6 +132,37 @@ export const RegisterForm = () => {
                             }}
                             isRequired
                         />
+                        <Autocomplete
+                            name="office_id"
+                            id="office_id"
+                            defaultItems={offices}
+                            label="Office"
+                            placeholder="Enter your office department/section/office"
+                            variant="bordered"
+                            inputProps={{
+                                classNames: {
+                                    label: "text-black dark:text-white/90 font-bold",
+                                    inputWrapper: "border-slate-400",
+                                },
+                            }}
+                            isClearable={false}
+                            className="min-w-64"
+                            menuTrigger="input"
+                            onSelectionChange={(key) => {
+                                console.log("value: " + key);
+                                setData("office_id", key);
+                            }}
+                            onKeyDown={(e) => e.continuePropagation()} //to stop console error: console.js:213 stopPropagation is now the default behavior for events in React Spectrum. You can use continuePropagation() to revert this behavior.
+                            isRequired
+                            isInvalid={!!errors.office_id}
+                            errorMessage={errors.office_id}
+                        >
+                            {(office) => (
+                                <AutocompleteItem key={office.id}>
+                                    {office.name}
+                                </AutocompleteItem>
+                            )}
+                        </Autocomplete>
                     </div>
                     <div className="flex gap-3">
                         <Input

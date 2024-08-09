@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Office;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,8 +36,11 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
-            //
-        ]);
+        $additional_data  = array_merge(parent::share($request), []);
+        if (strpos($request->url(), '/register') !== false) {
+            $additional_data['offices'] = Office::all();
+        }
+
+        return $additional_data;
     }
 }
